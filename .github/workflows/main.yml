@@ -14,5 +14,10 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID"
-          Write-Host "Attempt Count: ${GITHUB_RUN_ATTEMPT}"
+          $runId = $env:GITHUB_RUN_ID
+          $jobName = $env:GITHUB_JOB
+          $url = "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/$runId/jobs"
+          $jobs = Invoke-RestMethod -Uri $url -Headers @{"Authorization" = "token ${{ secrets.BY_PAT_Token }}"} -Method Get
+          $attempts = $jobs.jobs | Where-Object { $_.name -eq $jobName } | Measure-Object
+          Write-Host "Attempt Count: $($attempts)}"
         azPSVersion: "latest"
