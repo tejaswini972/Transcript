@@ -15,3 +15,12 @@ jobs:
         inlineScript: |
           Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT"
         azPSVersion: "latest"
+  run-powershell-script1:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure PowerShell Action
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+          Write-Host "jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT AND RUN NUMBER: github.run_number "
+        azPSVersion: "latest"
