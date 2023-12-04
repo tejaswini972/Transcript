@@ -17,7 +17,7 @@ jobs:
           $LogFileName = "${{ secrets.CustomerName }}" + "_" + "${{ github.workflow }}" + "_" +  $env:GITHUB_RUN_ID
           $folderPath = "$Home\" + "Logs"
           New-Item -ItemType Directory -Path $folderPath
-          $LogFilepath = $folderPath + $LogFileName + ".txt"
+          $LogFilepath = $folderPath + "\" + $LogFileName + ".txt"
           Write-Host "LogFilepath=$LogFilepath" >> $GITHUB_ENV
           Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
           Write-Host "Attempt Number: $env:GITHUB_RUN_ATTEMPT"
@@ -29,4 +29,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: C:\Users\runneradmin\Logs
+        path: C:\Users\runneradmin\Logs\
