@@ -7,7 +7,7 @@ on:
 
 jobs:
   run-powershell-script:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Azure PowerShell Action
       uses: Azure/powershell@v1
@@ -18,5 +18,6 @@ jobs:
           $LogFilepath = "$Home\" + $LogFileName + ".txt"
           Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader
           Write-Host "Attempt Number: $env:GITHUB_RUN_ATTEMPT"
+          Write-Host "test the transcript logic."
           Get-Content -Path $LogFilepath
         azPSVersion: "latest"
