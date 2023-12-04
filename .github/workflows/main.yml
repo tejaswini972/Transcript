@@ -13,14 +13,5 @@ jobs:
       uses: Azure/powershell@v1
       with:
         inlineScript: |
-          Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID"
-          $runId = $env:GITHUB_RUN_ID
-          $jobName = $env:GITHUB_JOB
-          $url = "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/$runId/jobs"
-          $headers = @{
-          "Authorization" = "Bearer ${{ secrets.BY_PAT_Token }}"
-          }
-          $jobs = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
-          $attempts = $jobs.jobs | Where-Object { $_.name -eq $jobName } | Measure-Object
-          Write-Host "Attempt Count: $($attempts)}"
+          Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT"
         azPSVersion: "latest"
