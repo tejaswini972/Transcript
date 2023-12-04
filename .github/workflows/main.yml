@@ -16,6 +16,7 @@ jobs:
           Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT"         
           $LogFileName = "${{ secrets.CustomerName }}" + "_" + "${{ github.workflow }}" + "_" +  $env:GITHUB_RUN_ID
           $LogFilepath = "$Home\" + $LogFileName + ".txt"
+          Write-Host "LogFilepath=$LogFilepath" >> $GITHUB_ENV
           Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
           Write-Host "Attempt Number: $env:GITHUB_RUN_ATTEMPT"
           Write-Host "test the transcript logic."
