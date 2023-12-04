@@ -18,4 +18,5 @@ jobs:
           $LogFilepath = "$Home\" + $LogFileName + ".txt"
           Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader
           Write-Host "Attempt Number: $env:GITHUB_RUN_ATTEMPT"
+          Get-Content -Path $LogFilepath
         azPSVersion: "latest"
