@@ -1,0 +1,16 @@
+name: Run PowerShell Script
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-powershell-script:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure PowerShell Action
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+        Write-Host "Release Name: ${{ github.event.release.name }}"
