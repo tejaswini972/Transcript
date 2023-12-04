@@ -14,3 +14,4 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Release Name: ${{ github.event.release.name }}"
+        azPSVersion: "latest"
