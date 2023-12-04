@@ -23,7 +23,7 @@ jobs:
           Write-Host "Attempt Number: $env:GITHUB_RUN_ATTEMPT"
           Write-Host "test the transcript logic."
           Get-Content -Path $LogFilepath
-          Stop-Transcript
+          # Stop-Transcript
         azPSVersion: "latest"
     - name: Upload test results
       uses: actions/upload-artifact@v2
