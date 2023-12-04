@@ -14,6 +14,6 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT"
-          $LogFileName = "TMS" + "_" + ${{ github.workflow }} + "_" +  ${{ github.workflow }}
+          $LogFileName = "TMS" + "_" + " ${{ github.workflow }} " + "_" +  " ${{ github.run.id }} "
           $LogFileName
         azPSVersion: "latest"
