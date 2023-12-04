@@ -17,9 +17,8 @@ jobs:
           $runId = $env:GITHUB_RUN_ID
           $jobName = $env:GITHUB_JOB
           $url = "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/$runId/jobs"
-          $accessToken = ${{ secrets.BY_PAT_Token }}
           $headers = @{
-          "Authorization" = "Bearer $accessToken"
+          "Authorization" = "Bearer ${{ secrets.BY_PAT_Token }}"
           }
           $jobs = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
           $attempts = $jobs.jobs | Where-Object { $_.name -eq $jobName } | Measure-Object
