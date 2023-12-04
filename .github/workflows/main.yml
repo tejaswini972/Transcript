@@ -16,8 +16,13 @@ jobs:
           Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT"         
           $LogFileName = "${{ secrets.CustomerName }}" + "_" + "${{ github.workflow }}" + "_" +  $env:GITHUB_RUN_ID
           $LogFilepath = "$Home\" + $LogFileName + ".txt"
-          Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader
+          Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
           Write-Host "Attempt Number: $env:GITHUB_RUN_ATTEMPT"
           Write-Host "test the transcript logic."
           Get-Content -Path $LogFilepath
         azPSVersion: "latest"
+    - name: Upload test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: $LogFileName
