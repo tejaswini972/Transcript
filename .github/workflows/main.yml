@@ -50,14 +50,17 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{env.LogFileName}}
-        path: ${{env.LogFolderPath}}        
+        path: ${{env.LogFolderPath}} 
+    outputs: 
+      FilePath: ${{env.LogFilePath}}   
   Test-powershell-script:
     runs-on: windows-latest
+    needs: run-powershell-script
     steps:
     - name: Azure PowerShell Action
       uses: Azure/powershell@v1
       with:
         inlineScript: |
-          Start-Transcript -Path ${{env.LogFilepath}} -Append -IncludeInvocationHeader -NoClobber
+          Start-Transcript -Path ${{ needs.run-powershell-script.outputs.FilePath}} -Append -IncludeInvocationHeader -NoClobber
           Write-Host "Job2"
         azPSVersion: "latest"  
