@@ -59,3 +59,4 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Job2"
+        azPSVersion: "latest"  
