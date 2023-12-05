@@ -20,7 +20,7 @@ jobs:
           $LogFilepath = $folderPath + "\" + $LogFileName + ".txt"
           echo "LogFolderPath=$folderPath" >> $GITHUB_ENV
           Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
-          Write-Host "folderpath= $env:LogFolderPath"
+          Write-Host "folderpath= $LogFolderPath"
           Write-Host "test the transcript logic."
           Get-Content -Path $LogFilepath
           # Stop-Transcript
@@ -30,4 +30,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: $env:LogFolderPath
+        path: $LogFolderPath
