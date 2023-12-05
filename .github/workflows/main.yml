@@ -18,7 +18,8 @@ jobs:
           $folderPath = "$Home\" + "Logs"
           New-Item -ItemType Directory -Path $folderPath
           $LogFilepath = $folderPath + "\" + $LogFileName + ".txt"
-          echo "LogFolderPath=$folderPath" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+          # echo "LogFolderPath=$folderPath" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+          echo "LogPath=$folderPath" >> $Env:GITHUB_ENV 
           Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
           Write-Host "folderpath= ${{env.LogFolderPath}}"
           Write-Host "test the transcript logic."
@@ -30,4 +31,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: ${{env.LogFolderPath}}
+        path: ${{env.LogPath}}
