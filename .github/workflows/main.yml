@@ -42,6 +42,7 @@ jobs:
           }
           # Calling function
           logtest -CustomerName ${{ vars.CustomerId }}
+        azPSVersion: "latest"  
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v2
