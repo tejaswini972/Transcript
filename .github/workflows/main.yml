@@ -26,9 +26,22 @@ jobs:
           Write-Host "folderpath= ${{env.LogFolderPath}}"
           Write-Host "test the transcript logic."
           Get-Content -Path $LogFilepath
-          Get-Content -Path
           # Stop-Transcript
         azPSVersion: "latest"
+    - name : Azure PowerShell Action
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+          function logtest {
+          param (
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$CustomerName
+          )
+          Write-Host "CustomerName: $($CustomerName)"
+          }
+          # Calling function
+          logtest -CustomerName ${{ vars.CustomerId }}
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v2
