@@ -23,6 +23,7 @@ jobs:
           Write-Host "folderpath= $LogFolderPath"
           Write-Host "test the transcript logic."
           Get-Content -Path $LogFilepath
+          Get-Content -Path
           # Stop-Transcript
         azPSVersion: "latest"
     - name: Upload test results
@@ -30,4 +31,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: $LogFolderPath
+        path: C:\Users\runneradmin\Logs\
