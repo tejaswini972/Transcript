@@ -19,9 +19,8 @@ jobs:
           New-Item -ItemType Directory -Path $folderPath
           $LogFilepath = $folderPath + "\" + $LogFileName + ".txt"
           Write-Host "LogFilepath=$LogFilepath"
-          Connect-AzAccount
           Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
-          Write-Host "test the transcript logic."
+          Write-Host "test the transcript logic.
           Get-Content -Path $LogFilepath
           # Stop-Transcript
         azPSVersion: "latest"
