@@ -18,7 +18,7 @@ jobs:
           $folderPath = "$Home\" + "Logs"
           New-Item -ItemType Directory -Path $folderPath
           $LogFilepath = $folderPath + "\" + $LogFileName + ".txt"
-          LogFolderPath=$folderPath >> $env:GITHUB_ENV
+          echo "LogFolderPath=$folderPath" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
           Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
           Write-Host "folderpath= ${{env.LogFolderPath}}"
           Write-Host "test the transcript logic."
