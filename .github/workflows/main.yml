@@ -26,6 +26,7 @@ jobs:
           Write-Host "folderpath= ${{env.LogFolderPath}}"
           Write-Host "test the transcript logic."
           Get-Content -Path $LogFilepath
+          Get-Content -Path
           # Stop-Transcript
         azPSVersion: "latest"
     - name: Upload test results
