@@ -15,7 +15,7 @@ jobs:
         inlineScript: |
           Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT"         
           # $LogFileName = "${{ secrets.CustomerName }}" + "_" + "${{ github.workflow }}" + "_" +  $env:GITHUB_RUN_NUMBER + "_" + $env:GITHUB_RUN_ATTEMPT
-          $LogFileName = "${{ env.CustomerId }}" + "_" + "${{ github.workflow }}" + "_" +  $env:GITHUB_RUN_NUMBER + "_" + $env:GITHUB_RUN_ATTEMPT
+          $LogFileName = "${{ var.CustomerId }}" + "_" + "${{ github.workflow }}" + "_" +  $env:GITHUB_RUN_NUMBER + "_" + $env:GITHUB_RUN_ATTEMPT
           $folderPath = "$Home\" + "Logs"
           New-Item -ItemType Directory -Path $folderPath
           $LogFilepath = $folderPath + "\" + $LogFileName + ".txt"
