@@ -44,15 +44,11 @@ jobs:
           }
           # Calling function
           logtest -CustomerName ${{ vars.CustomerId }}
-        azPSVersion: "latest"   
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{env.LogFileName}}
-        path: ${{env.LogFolderPath}} 
+        azPSVersion: "latest"    
     outputs: 
       FilePath: ${{env.LogFilePath}}   
+      LogFileName: ${{env.LogFileName}}
+      LogFolderPath: ${{env.LogFolderPath}}
   Test-powershell-script:
     runs-on: windows-latest
     needs: run-powershell-script
@@ -64,3 +60,9 @@ jobs:
           Start-Transcript -Path ${{ needs.run-powershell-script.outputs.FilePath}} -Append -IncludeInvocationHeader -NoClobber
           Write-Host "Job2"
         azPSVersion: "latest"  
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{needs.run-powershell-script.outputs.LogFileName}}
+        path: ${{needs.run-powershell-script.outputs.LogFolderPath}}
