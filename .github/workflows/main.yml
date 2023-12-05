@@ -44,10 +44,18 @@ jobs:
           }
           # Calling function
           logtest -CustomerName ${{ vars.CustomerId }}
-        azPSVersion: "latest"  
+        azPSVersion: "latest"                          
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v2
       with:
         name: ${{env.LogFileName}}
         path: ${{env.LogFolderPath}}
+  Test-powershell-script:
+    runs-on: windows-latest
+    steps:
+    - name: Azure PowerShell Action
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+          Write-Host "Job2"
