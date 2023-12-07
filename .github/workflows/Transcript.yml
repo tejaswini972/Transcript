@@ -1,9 +1,7 @@
 name: TranscriptLog_Workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   job1:
@@ -14,7 +12,7 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT"         
-          $LogFileName = "${{ vars.CustomerId }}" + "_" + "${{ github.workflow }}" + "_" + "job1" + $env:GITHUB_RUN_NUMBER + "_" + $env:GITHUB_RUN_ATTEMPT
+          $LogFileName = "${{ vars.CustomerId }}" + "_" + "${{ github.workflow }}" + "_" + "job1_" + $env:GITHUB_RUN_NUMBER + "_" + $env:GITHUB_RUN_ATTEMPT
           # Set Log File Name as GitHub Environment variable
           echo "LogFileName=$LogFileName" >> $Env:GITHUB_ENV 
           $folderPath = "$Home\" + "Logs"
@@ -54,7 +52,7 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT"         
-          $LogFileName = "${{ vars.CustomerId }}" + "_" + "${{ github.workflow }}" + "_" + "job2" + $env:GITHUB_RUN_NUMBER + "_" + $env:GITHUB_RUN_ATTEMPT
+          $LogFileName = "${{ vars.CustomerId }}" + "_" + "${{ github.workflow }}" + "_" + "job2_" + $env:GITHUB_RUN_NUMBER + "_" + $env:GITHUB_RUN_ATTEMPT
           # Set Log File Name as GitHub Environment variable
           echo "LogFileName=$LogFileName" >> $Env:GITHUB_ENV 
           $folderPath = "$Home\" + "Logs"
