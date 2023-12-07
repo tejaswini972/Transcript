@@ -9,7 +9,7 @@ jobs:
   run-powershell-script:
     runs-on: windows-latest
     steps:
-    - name: Azure PowerShell Action
+    - name: Azure PowerShell Action1
       uses: Azure/powershell@v1
       with:
         inlineScript: |
@@ -29,11 +29,11 @@ jobs:
           Write-Host "test the transcript logic."
           # Stop-Transcript
         azPSVersion: "latest"
-    - name : Azure PowerShell Action
+    - name : Azure PowerShell Action2
       uses: Azure/powershell@v1
       with:
         inlineScript: |
-          Start-Transcript -Path ${{env.LogFilepath}} -Append -IncludeInvocationHeader -NoClobber
+          # Start-Transcript -Path ${{env.LogFilepath}} -Append -IncludeInvocationHeader -NoClobber
           function logtest {
           param (
           [Parameter(Mandatory = $True)]
