@@ -5,6 +5,7 @@ on:
 
 jobs:
   job1:
+    name: RunTranscript
     runs-on: windows-latest
     steps:
     - name: Azure PowerShell Action1
@@ -12,7 +13,7 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Release Name: ${{ github.event.release.name }}, jobname: $env:GITHUB_JOB and RunId: $env:GITHUB_RUN_ID, Attemps: $env:GITHUB_RUN_ATTEMPT"         
-          $LogFileName = "${{ vars.CustomerId }}" + "_" + "${{ github.workflow }}" + "_" + "job1_" + $env:GITHUB_RUN_NUMBER + "_" + $env:GITHUB_RUN_ATTEMPT
+          $LogFileName = "${{ vars.CustomerId }}" + "_" + "${{ github.workflow }}" + "_" + ${{ jobs.job1.name }} + $env:GITHUB_RUN_NUMBER + "_" + $env:GITHUB_RUN_ATTEMPT
           # Set Log File Name as GitHub Environment variable
           echo "LogFileName=$LogFileName" >> $Env:GITHUB_ENV 
           $folderPath = "$Home\" + "Logs"
