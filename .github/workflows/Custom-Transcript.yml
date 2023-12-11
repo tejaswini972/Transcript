@@ -5,7 +5,7 @@ on:
 
 jobs:
   run-powershell-script:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Step1
       uses: Azure/powershell@v1
