@@ -1,9 +1,7 @@
 name: TranscriptLog
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   run-powershell-script:
