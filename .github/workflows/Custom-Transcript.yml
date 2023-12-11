@@ -1,9 +1,7 @@
-name: Run PowerShell Script
+name: Custom-Transcript
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   run-powershell-script:
