@@ -83,8 +83,8 @@ jobs:
           $transcript = Start-CustomTranscript -CustomerId ${{ vars.CustomerId }} -GitHubWorkflowName ${{ github.workflow }} -GitHubRunNumber $env:GITHUB_RUN_NUMBER -GitHubRunAttemptNumber $env:GITHUB_RUN_ATTEMPT -JobName $JobName -LogFolderPath $LogFolderPath
           Write-Host "This is Job1-Step1."
           
-          $LogFileName = $transcript[1]
-          $StartTimeUTC = $transcript[2]
+          $LogFileName = $transcript[2]
+          $StartTimeUTC = $transcript[3]
           # Set Log File Name as GitHub Environment variable
           echo "LogFileName=$LogFileName">> $Env:GITHUB_ENV 
           echo "LogFolderPath=$LogFolderPath" >> $Env:GITHUB_ENV 
