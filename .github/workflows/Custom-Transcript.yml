@@ -86,8 +86,7 @@ jobs:
           $LogFileName = $transcript[1]
           $StartTimeUTC = $transcript[2]
           # Set Log File Name as GitHub Environment variable
-          echo "LogFileName=LogFileName">> $Env:GITHUB_ENV 
-          echo "LogFilepath=$transcript[2]" >> $Env:GITHUB_ENV 
+          echo "LogFileName=$LogFileName">> $Env:GITHUB_ENV 
           echo "LogFolderPath=$LogFolderPath" >> $Env:GITHUB_ENV 
           echo "StartTimeUTC=$StartTimeUTC" >> $Env:GITHUB_ENV 
         azPSVersion: "latest"
