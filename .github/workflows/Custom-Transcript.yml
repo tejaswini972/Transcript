@@ -1,0 +1,167 @@
+name: Run PowerShell Script
+
+on:
+  workflow_dispatch
+
+jobs:
+  run-powershell-script:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Step1
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+          function Start-CustomTranscript {
+          [CmdletBinding()]
+          param (
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$CustomerId,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$GitHubWorkflowName,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [Int32]$GitHubRunNumber,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [Int32]$GitHubRunAttemptNumber,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$JobName,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$LogFolderPath
+          )
+
+          begin {
+          }
+    
+          process {
+
+          # Set name for Transcript log file
+          $LogFileName = $CustomerId + "_" + $GitHubWorkflowName + "_" + $JobName + "_" + $GitHubRunNumber + "_" + $GitHubRunAttemptNumber 
+        
+          # Create new folder to store the Log file
+          $Path = Test-Path -Path $LogFolderPath
+
+          if ($Path) {
+          Write-Host "Folder Exists"
+          }
+          else {
+          New-Item -ItemType Directory -Path $LogFolderPath
+          }
+
+          #$folderPath = "$Home\" + $CustomerId + "Logs"
+
+          # Set Transcript Log File path
+          $LogFilepath = $LogFolderPath + "\" + $LogFileName + ".txt"
+
+          # Start Transcript
+          Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
+        
+          # Set Start Time in UTC
+          $StartTimeUTC = [System.DateTime]::UtcNow
+          }
+    
+          end {
+          return $LogFileName, $LogFilepath, $LogFolderPath, $StartTimeUTC
+          }
+          }
+
+          $JobName = "job1"
+          $LogFolderPath = "$Home\" + "${{ vars.CustomerId }}" + "Logs"
+
+          $transcript = Start-CustomTranscript -CustomerId ${{ vars.CustomerId }} -GitHubWorkflowName ${{ github.workflow }} -GitHubRunNumber $env:GITHUB_RUN_NUMBER -GitHubRunAttemptNumber $env:GITHUB_RUN_ATTEMPT -JobName $JobName -LogFolderPath $LogFolderPath
+          Write-Host "This is Job1-Step1."
+          
+          # Set Log File Name as GitHub Environment variable
+          echo "LogFileName=$transcript[1]" >> $Env:GITHUB_ENV 
+          echo "LogFilepath=$transcript[2]" >> $Env:GITHUB_ENV 
+          echo "LogFolderPath=$transcript[3]" >> $Env:GITHUB_ENV 
+          echo "StartTimeUTC=$transcript[4]" >> $Env:GITHUB_ENV 
+        azPSVersion: "latest"
+    - name: Step 2
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+          function Start-CustomTranscript {
+          [CmdletBinding()]
+          param (
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$CustomerId,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$GitHubWorkflowName,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [Int32]$GitHubRunNumber,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [Int32]$GitHubRunAttemptNumber,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$JobName,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$LogFolderPath
+          )
+
+          begin {
+          }
+    
+          process {
+
+          # Set name for Transcript log file
+          $LogFileName = $CustomerId + "_" + $GitHubWorkflowName + "_" + $JobName + "_" + $GitHubRunNumber + "_" + $GitHubRunAttemptNumber 
+        
+          # Create new folder to store the Log file
+          $Path = Test-Path -Path $LogFolderPath
+
+          if ($Path) {
+          Write-Host "Folder Exists"
+          }
+          else {
+          New-Item -ItemType Directory -Path $LogFolderPath
+          }
+
+          #$folderPath = "$Home\" + $CustomerId + "Logs"
+
+          # Set Transcript Log File path
+          $LogFilepath = $LogFolderPath + "\" + $LogFileName + ".txt"
+
+          # Start Transcript
+          Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
+        
+          # Set Start Time in UTC
+          $StartTimeUTC = [System.DateTime]::UtcNow
+          }
+    
+          end {
+          return $LogFileName, $LogFilepath, $LogFolderPath, $StartTimeUTC
+          }
+          }
+
+          $JobName = "job1"
+          $LogFolderPath = "$Home\" + "${{ vars.CustomerId }}" + "Logs"
+
+          $transcript = Start-CustomTranscript -CustomerId ${{ vars.CustomerId }} -GitHubWorkflowName ${{ github.workflow }} -GitHubRunNumber $env:GITHUB_RUN_NUMBER -GitHubRunAttemptNumber $env:GITHUB_RUN_ATTEMPT -JobName $JobName -LogFolderPath $LogFolderPath
+          Write-Host "This is Job1-Step2."
+        azPSVersion: "latest"
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{env.LogFileName}}
+        path: ${{env.LogFolderPath}}  
