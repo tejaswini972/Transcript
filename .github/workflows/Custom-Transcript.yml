@@ -1,7 +1,9 @@
-name: Custom-Transcript
+name: Run PowerShell Script
 
 on:
-  workflow_dispatch
+  push:
+    branches:
+      - main
 
 jobs:
   run-powershell-script:
@@ -70,21 +72,26 @@ jobs:
           }
     
           end {
-          return $LogFileName, $LogFilepath, $LogFolderPath, $StartTimeUTC
+          return $LogFileName, $StartTimeUTC
           }
           }
 
           $JobName = "job1"
-          $LogFolderPath = "$Home\" + "${{ vars.CustomerId }}" + "Logs"
+          $LogFolderPath = "$Home\" + "${{ vars.CustomerId }}" + "\Logs"
+
+          # Set Log File Folder Path as GitHub Environment variable
+          echo "LogFolderPath=$LogFolderPath" >> $Env:GITHUB_ENV 
 
           $transcript = Start-CustomTranscript -CustomerId ${{ vars.CustomerId }} -GitHubWorkflowName ${{ github.workflow }} -GitHubRunNumber $env:GITHUB_RUN_NUMBER -GitHubRunAttemptNumber $env:GITHUB_RUN_ATTEMPT -JobName $JobName -LogFolderPath $LogFolderPath
           Write-Host "This is Job1-Step1."
           
+          $LogFileName = $transcript[1]
+          $StartTimeUTC = $transcript[2]
           # Set Log File Name as GitHub Environment variable
-          echo "LogFileName=$transcript[1]" >> $Env:GITHUB_ENV 
+          echo "LogFileName=LogFileName">> $Env:GITHUB_ENV 
           echo "LogFilepath=$transcript[2]" >> $Env:GITHUB_ENV 
-          echo "LogFolderPath=$transcript[3]" >> $Env:GITHUB_ENV 
-          echo "StartTimeUTC=$transcript[4]" >> $Env:GITHUB_ENV 
+          echo "LogFolderPath=$LogFolderPath" >> $Env:GITHUB_ENV 
+          echo "StartTimeUTC=$StartTimeUTC" >> $Env:GITHUB_ENV 
         azPSVersion: "latest"
     - name: Step 2
       uses: Azure/powershell@v1
@@ -149,7 +156,7 @@ jobs:
           }
     
           end {
-          return $LogFileName, $LogFilepath, $LogFolderPath, $StartTimeUTC
+          return $LogFileName, $StartTimeUTC
           }
           }
 
