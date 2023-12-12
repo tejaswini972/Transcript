@@ -88,9 +88,88 @@ jobs:
           # Set Log File Name as GitHub Environment variable
           echo "LogFileName=$LogFileName">> $Env:GITHUB_ENV 
           echo "LogFolderPath=$LogFolderPath" >> $Env:GITHUB_ENV 
-          echo "StartTimeUTC=$StartTimeUTC" >> $Env:GITHUB_ENV 
           Write-Host $StartTimeUTC
         azPSVersion: "latest"
+    - name: Step2
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+          function Start-CustomTranscript {
+          [CmdletBinding()]
+          param (
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$CustomerId,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$GitHubWorkflowName,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [Int32]$GitHubRunNumber,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [Int32]$GitHubRunAttemptNumber,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$JobName,
+
+          [Parameter(Mandatory = $True)]
+          [ValidateNotNullOrEmpty()]
+          [string]$LogFolderPath
+          )
+
+          begin {
+          }
+    
+          process {
+
+          # Set name for Transcript log file
+          $LogFileName = $CustomerId + "_" + $GitHubWorkflowName + "_" + $JobName + "_" + $GitHubRunNumber + "_" + $GitHubRunAttemptNumber 
+        
+          # Create new folder to store the Log file
+          $Path = Test-Path -Path $LogFolderPath
+
+          if ($Path) {
+          Write-Host "Folder Exists"
+          }
+          else {
+          New-Item -ItemType Directory -Path $LogFolderPath
+          }
+
+          #$folderPath = "$Home\" + $CustomerId + "Logs"
+
+          # Set Transcript Log File path
+          $LogFilepath = $LogFolderPath + "\" + $LogFileName + ".txt"
+
+          # Start Transcript
+          Start-Transcript -Path $LogFilepath -Append -IncludeInvocationHeader -NoClobber
+        
+          # Set Start Time in UTC
+          $StartTimeUTC = [System.DateTime]::UtcNow
+          }
+    
+          end {
+          return $LogFileName, $StartTimeUTC
+          }
+          }
+
+          $JobName = "job1"
+          $LogFolderPath = "$Home\" + "${{ vars.CustomerId }}" + "\Logs"
+
+          # Set Log File Folder Path as GitHub Environment variable
+          echo "LogFolderPath=$LogFolderPath" >> $Env:GITHUB_ENV 
+
+          $transcript = Start-CustomTranscript -CustomerId ${{ vars.CustomerId }} -GitHubWorkflowName ${{ github.workflow }} -GitHubRunNumber $env:GITHUB_RUN_NUMBER -GitHubRunAttemptNumber $env:GITHUB_RUN_ATTEMPT -JobName $JobName -LogFolderPath ${{env.LogFolderPath}}  
+          Write-Host "This is Job1-Step2."       
+          $LogFileName = $transcript[2]
+          Write-Host $LogFileName
+          $StartTimeUTC = $transcript[3]
+          Write-Host $StartTimeUTC
+        azPSVersion: "latest"        
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v2
