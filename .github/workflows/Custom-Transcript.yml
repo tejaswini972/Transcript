@@ -169,6 +169,7 @@ jobs:
           Write-Host $LogFileName
           $StartTimeUTC = $transcript[3]
           Write-Host $StartTimeUTC
+          Get-Content -Path
         azPSVersion: "latest"        
     - name: Upload test results
       if: always()
@@ -269,7 +270,7 @@ jobs:
             )
             Write-Host "CustomerId is $($CustomerId)"
           }
-          $customername = ""
+          $customername = 1
           Get-cname -CustomerId $customername
         azPSVersion: "latest"
     - name: Step2
