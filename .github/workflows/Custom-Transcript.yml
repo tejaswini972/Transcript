@@ -263,7 +263,7 @@ jobs:
           Write-Host $StartTimeUTC
           function Get-cname{
             param (
-            [string]$CustomerId,
+            [string]$CustomerId
             )
             Write-Host "CustomerId is $($CustomerId)"
           }
