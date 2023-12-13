@@ -263,11 +263,13 @@ jobs:
           Write-Host $StartTimeUTC
           function Get-cname{
             param (
+            [Parameter(Mandatory = $True)]
+            [ValidateNotNullOrEmpty()]  
             [string]$CustomerId
             )
             Write-Host "CustomerId is $($CustomerId)"
           }
-          $customername = 1
+          $customername = ""
           Get-cname -CustomerId $customername
         azPSVersion: "latest"
     - name: Step2
