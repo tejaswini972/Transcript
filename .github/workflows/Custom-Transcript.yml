@@ -261,6 +261,14 @@ jobs:
           echo "LogFileName=$LogFileName">> $Env:GITHUB_ENV 
           echo "LogFolderPath=$LogFolderPath" >> $Env:GITHUB_ENV 
           Write-Host $StartTimeUTC
+          function Get-cname{
+            param (
+            [string]$CustomerId,
+            )
+            Write-Host "CustomerId is $($CustomerId)"
+          }
+          $customername = 1
+          Get-cname -CustomerId $customername
         azPSVersion: "latest"
     - name: Step2
       uses: Azure/powershell@v1
