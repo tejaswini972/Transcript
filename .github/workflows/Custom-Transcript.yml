@@ -11,6 +11,7 @@ jobs:
       uses: Azure/powershell@v1
       with:
         inlineScript: |
+          $VerbosePrefernece = "Continue"
           function Start-CustomTranscript {
           [CmdletBinding()]
           param (
@@ -89,6 +90,7 @@ jobs:
           echo "LogFileName=$LogFileName">> $Env:GITHUB_ENV 
           echo "LogFolderPath=$LogFolderPath" >> $Env:GITHUB_ENV 
           Write-Host $StartTimeUTC
+          Invoke-WebRequest -Uri "http://google.com" -Method GET -UseBasicParsing
         azPSVersion: "latest"
     - name: Step2
       uses: Azure/powershell@v1
@@ -169,7 +171,6 @@ jobs:
           Write-Host $LogFileName
           $StartTimeUTC = $transcript[3]
           Write-Host $StartTimeUTC
-          Get-Content -Path
         azPSVersion: "latest"        
     - name: Upload test results
       if: always()
@@ -270,7 +271,7 @@ jobs:
             )
             Write-Host "CustomerId is $($CustomerId)"
           }
-          $customername = 1
+          $customername = "TMS"
           Get-cname -CustomerId $customername
         azPSVersion: "latest"
     - name: Step2
